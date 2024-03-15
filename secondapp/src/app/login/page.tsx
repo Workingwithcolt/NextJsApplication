@@ -25,6 +25,8 @@ export default function LoginPage() {
     const onLogin = async (e: any) => {
         const form = e.currentTarget;
         e.preventDefault();
+        console.log(form.checkValidity());
+
         try {
             if (form.checkValidity() === true) {
                 setProcess({
@@ -40,10 +42,16 @@ export default function LoginPage() {
                 } else {
                     router.push('/profile');
                 }
+            } else {
+                setProcess({
+                    ...Process, error: "Please Fill All Fields..", isloading: false
+                })
             }
         } catch (e: any) {
             console.log(e);
-
+            setProcess({
+                ...Process, error: e.response.data.error, isloading: false
+            })
         }
     }
 
@@ -68,6 +76,7 @@ export default function LoginPage() {
                         value={user.email}
                         onChange={e => setuser({ ...user, email: e.target.value })}
                         placeholder="Email"
+                        required={true}
                     />
                 </div>
                 <div className="flex gap-3  flex-col">
@@ -79,9 +88,10 @@ export default function LoginPage() {
                         value={user.password}
                         onChange={e => setuser({ ...user, password: e.target.value })}
                         placeholder="password"
+                        required={true}
                     />
                 </div>
-                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">Login</button>
+                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >Login</button>
             </div>
             {
                 Process.error !== "" &&

@@ -44,7 +44,9 @@ export default function SignUpPage() {
             }
         } catch (e: any) {
             console.log(e);
-
+            setProcess({
+                ...Process, error: e.response.data.error, isloading: false
+            })
         }
     }
 
@@ -53,6 +55,7 @@ export default function SignUpPage() {
             <Loading />
         )
     }
+    
 
     return (
         <form
